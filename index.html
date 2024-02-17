@@ -1,0 +1,388 @@
+<body style="zoom: 1.2;">
+
+    <h1>Thần số học</h1>
+    <button id="clear">Xóa</button>
+    </br>
+    <label>
+        Tên
+    </label>
+    <input id="name" value="Nguyễn Minh ĐỨc" />
+    </br>
+    <label>
+        Ngày sinh
+    </label>
+
+    <input id="date" value="29-06-1992">
+    </br>
+    <button id="cal">Tính</button>
+    </br>
+    <div> <label>Đường đời: </label><label id="valDuongDoi"></label></div>
+    <div> <label>Sứ mệnh: </label><label id="valSuMenh"></label></div>
+    <div> <label>Linh hồn: </label><label id="valLinhHon"></label></div>
+    <div> <label>Nhân Cách: </label><label id="valNhanCach"></label></div>
+    <div> <label>Trưởng Thành: </label><label id="valTruongThanh"></label></div>
+    <div> <label>Cân bằng: </label><label id="valCanBang"></label></div>
+    <div> <label>Ngày sinh: </label><label id="valNgaySinh"></label></div>
+    <div> <label>Liên kết ĐĐ-SM: </label><label id="valddsm"></label></div>
+    <div> <label>Liên kết Linh hồn - Nhân cách: </label><label id="vallhnc"></label></div>
+    <div> <label>Thiếu: </label><label id="valThieu"></label></div>
+    <div> <label>Đam mê: </label><label id="valDamMe"></label></div>
+    <div> <label>----------------------</label></div>
+    <div> <label>----------------------</label></div>
+    <div> <label>Năm </label> <input id="nam" type="number" value="2023"> <label><label id="valNamInput"></label>:
+        </label>
+        <label id="valNam"></label>
+    </div>
+    <div> <label>Tháng </label> <input id="thang" type="number" value="4"> <label><label id="valInputThang"></label>:
+        </label>
+        <label id="valThang"></label>
+    </div>
+    <div> <label>----------------------</label></div>
+    <div> <label>Chặng 1: (<label class="valchangC1"></label>): </label><label id="valChang1"></label></div>
+    <div> <label>Chặng 2: (<label class="valchangC2"></label>): </label><label id="valChang2"></label></div>
+    <div> <label>Chặng 3: (<label class="valchangC3"></label>): </label><label id="valChang3"></label></div>
+    <div> <label>Chặng 4: (<label class="valchangC4"></label>): </label><label id="valChang4"></label></div>
+    <div> <label>----------------------</label></div>
+    <div> <label>Thách thức 1: (<label class="valchangC1"></label>): </label><label id="valThachThuc1"></label></div>
+    <div> <label>Thách thức 2: (<label class="valchangC2"></label>): </label><label id="valThachThuc2"></label></div>
+    <div> <label>Thách thức 3: (<label class="valchangC3"></label>): </label><label id="valThachThuc3"></label></div>
+    <div> <label>Thách thức 4: (<label class="valchangC4"></label>): </label><label id="valThachThuc4"></label></div>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="/resources/demos/style.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script>$('#date').datepicker({ dateFormat: 'dd-mm-yy' }).val();</script>
+    <script>
+        $(document).ready(function () {
+
+            // clear();
+            function clear() {
+                $('#date').datepicker({ dateFormat: 'dd-mm-yy' }).val("")
+                $("#name").val("");
+                $("#valDuongDoi").empty();
+                $("#valSuMenh").empty();
+                $("#nam").val((new Date()).getFullYear());
+                $("#valNamInput").html((new Date()).getFullYear());
+                $("#thang").val((new Date()).getMonth() + 1);
+                $("#valInputThang").html((new Date()).getMonth() + 1);
+                $("#valSuMenh").empty();
+                $("#valLinhHon").empty();
+                $("#valNhanCach").empty();
+                $("#valTruongThanh").empty();
+                $("#valCanBang").empty();
+                $("#valNgaySinh").empty();
+                $("#valddsm").empty();
+                $("#vallhnc").empty();
+                $("#valThieu").empty();
+                $("#valDamMe").empty();
+
+                $("#valNam").empty();
+                $("#valThang").empty();
+
+                $("#valChang1").empty();
+                $("#valChang2").empty();
+                $("#valChang3").empty();
+                $("#valChang4").empty();
+                $("#valThachThuc1").empty();
+                $("#valThachThuc2").empty();
+                $("#valThachThuc3").empty();
+                $("#valThachThuc4").empty();
+                $(".valchangC1").empty();
+                $(".valchangC2").empty();
+                $(".valchangC3").empty();
+                $(".valchangC4").empty();
+            }
+
+            $("#cal").click(function () {
+                cal();
+            });
+            $("#clear").click(function () {
+                clear();
+            });
+
+            function getNumber(number, listNumberReturn) {
+                if (number <= 9 || listNumberReturn.indexOf(number) > -1) {
+                    return number;
+                } else {
+                    let stringN = number.toString();
+                    var total = 0;
+                    for (var i = 0; i < stringN.length; i++) {
+                        total = total + stringN[i] * 1;
+                    }
+                    return getNumber(total, listNumberReturn)
+                }
+            }
+            var nDuongDoi = 0;
+            function calDuongDoi() {
+                var dateString = $('#date').datepicker({ dateFormat: 'dd-mm-yy' }).val();
+                dateString = dateString.split("-");
+                let totalCal = 0;
+                for (let i = 0; i < dateString.length; i++) {
+                    let nameL1 = dateString[i].toString();
+                    // let total1N = 0;
+                    // if ([11, 22].includes(nameL1 * 1)) {
+                    //     total1N = nameL1 * 1;
+                    // } else {
+                    //     for (var j = 0; j < nameL1.length; j++) {
+                    //         total1N = total1N + nameL1[j] * 1;
+                    //     }
+                    // }
+                    totalCal = totalCal + getNumber(nameL1*1, [11, 22]);
+                }
+                nDuongDoi = (getNumber(totalCal, [11, 22, 33]))
+                $("#valDuongDoi").html(nDuongDoi);
+            }
+            var nSuMenh = 0;
+            function calSuMenh() {
+                var a = $("#name").val();
+                a = removeVietnameseTones(a);
+                var nameString = a.toUpperCase();
+                var nameL = nameString.split(" ").filter(x => x != '');
+                let totalCal = 0;
+                for (let i = 0; i < nameL.length; i++) {
+                    let nameL1 = nameL[i];
+                    let total1N = 0;
+                    for (var j = 0; j < nameL1.length; j++) {
+                        total1N = total1N + dataNumberChar[nameL1[j]];
+                    }
+                    totalCal = totalCal + getNumber(total1N, [11, 22, 33]);
+                }
+                nSuMenh = getNumber(totalCal, [11, 22, 33]);
+                $("#valSuMenh").html(nSuMenh);
+            }
+            var nLinhHon = 0;
+            var nNhanCach = 0;
+            function calLinhhonVaNhanCach() {
+                var a = $("#name").val();
+                a = removeVietnameseTones(a);
+                var nameString = a.toUpperCase();
+                var nameL = nameString.split(" ").filter(x => x != '');
+                let totalLinhHon = 0;
+                let totalNhanCach = 0;
+                for (let i = 0; i < nameL.length; i++) {
+                    let nameL1 = nameL[i];
+                    let n1LinhHone = 0;
+                    let n1NhanCach = 0;
+                    for (var j = 0; j < nameL1.length; j++) {
+                        let char = nameL1[j];
+                        if (nguyenAm.includes(char)) {
+                            n1LinhHone = n1LinhHone + dataNumberChar[nameL1[j]];
+                        } else if (char === "Y") {
+                            if (j === 0 && nameL1[j + 1] && nguyenAm.includes(nameL1[j + 1])) {
+                                n1NhanCach = n1NhanCach + dataNumberChar[nameL1[j]];
+                            } else if (nameL1[j + 1] && nameL1[j - 1] && nguyenAm.includes(nameL1[j + 1]) && nguyenAm.includes(nameL1[j - 1])) {
+                                n1NhanCach = n1NhanCach + dataNumberChar[nameL1[j]];
+                            } else {
+                                n1LinhHone = n1LinhHone + dataNumberChar[nameL1[j]];
+                            }
+                        } else {
+                            n1NhanCach = n1NhanCach + dataNumberChar[nameL1[j]];
+                        }
+                    }
+                    totalLinhHon = totalLinhHon + getNumber(n1LinhHone, [11, 22, 33]);
+                    totalNhanCach = totalNhanCach + getNumber(n1NhanCach, [11, 22, 33]);
+                }
+                nLinhHon = getNumber(totalLinhHon, [11, 22, 33]);
+                nNhanCach = getNumber(totalNhanCach, [11, 22, 33]);
+                $("#valLinhHon").html(nLinhHon);
+                $("#valNhanCach").html(nNhanCach);
+            }
+
+            function calTruongThanh() {
+                $("#valTruongThanh").html(getNumber(nDuongDoi + nSuMenh, [11, 22, 33]));
+            }
+            function calCanBang() {
+                var a = $("#name").val();
+                a = removeVietnameseTones(a);
+                var nameString = a.toUpperCase();
+                var nameL = nameString.split(" ").filter(x => x != '');
+                let totalCanBang = 0;
+
+                for (let i = 0; i < nameL.length; i++) {
+                    let nameL1 = nameL[i];
+                    totalCanBang = totalCanBang + dataNumberChar[nameL1[0]];
+                }
+                var nCanBang = getNumber(totalCanBang, [11, 22, 33]);
+                $("#valCanBang").html(nCanBang);
+
+            }
+            function calddsm() {
+                let data = Math.abs(nDuongDoi - nSuMenh);
+                $("#valddsm").html(getNumber(data, [11, 22, 33]));
+            }
+            function callhnc() {
+                let data = Math.abs(nLinhHon - nNhanCach);
+                $("#vallhnc").html(getNumber(data, [11, 22, 33]));
+            }
+            function calNgaySinh() {
+                var dateString = $('#date').datepicker({ dateFormat: 'dd-mm-yy' }).val();
+                dateString = dateString.split("-");
+
+                let nameL1 = dateString[0].toString();
+                let total1N = 0;
+                for (var j = 0; j < nameL1.length; j++) {
+                    total1N = total1N + nameL1[j] * 1;
+                }
+
+
+                $("#valNgaySinh").html(getNumber(total1N, [11, 22, 33]));
+            }
+            function calThieu() {
+                var list = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+                var a = $("#name").val();
+                a = removeVietnameseTones(a);
+                var nameString = a.toUpperCase();
+                var nameL = nameString.split(" ").filter(x => x != '').join("");
+                for (let i = 0; i < nameL.length; i++) {
+                    const num = dataNumberChar[nameL[i]];
+                    if (list.indexOf(num) >= 0) {
+                        list = list.filter(x => x != num);
+                    }
+                }
+                $("#valThieu").html(list.join(", "));
+            }
+            function calDamMe() {
+                var list = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+                var listN = [];
+                for (let i = 0; i < list.length; i++) {
+                    const element = list[i];
+                    listN.push({ num: element, count: 0 });
+                }
+                var a = $("#name").val();
+                a = removeVietnameseTones(a);
+                var nameString = a.toUpperCase();
+                var nameL = nameString.split(" ").filter(x => x != '').join("");
+                for (let i = 0; i < nameL.length; i++) {
+                    const num = dataNumberChar[nameL[i]];
+                    let index = listN.findIndex(x => x.num === num);
+                    listN[index].count = listN[index].count + 1;
+                }
+                listN.sort(function (a, b) {
+                    return b.count - a.count;
+                });
+                let listT = [];
+                let max = listN[0].count;
+                for (let i = 0; i < listN.length; i++) {
+                    if (max === listN[i].count) {
+                        listT.push(listN[i].num)
+                    } else {
+                        break;
+                    }
+                }
+                $("#valDamMe").html(listT.join(", "));
+            }
+
+            function cal() {
+                calDuongDoi();
+                calSuMenh();
+                calLinhhonVaNhanCach();
+                calTruongThanh();
+                calCanBang();
+                calddsm();
+                callhnc();
+                calNgaySinh();
+                calThieu();
+                calDamMe();
+                calNam();
+                calNam();
+                calThang();
+                calChang();
+                valThachThuc();
+                // var a = $("#name").val();
+                // alert(removeVietnameseTones(a));
+            }
+            var nNam = 0;
+            function calNam() {
+                var dateString = $('#date').datepicker({ dateFormat: 'dd-mm-yy' }).val();
+                dateString = dateString.split("-");
+                dateString[2] = $("#nam").val();
+                let totalCal = 0;
+                for (let i = 0; i < dateString.length; i++) {
+                    let nameL1 = dateString[i].toString();
+                    let total1N = 0;
+                    for (var j = 0; j < nameL1.length; j++) {
+                        total1N = total1N + nameL1[j] * 1;
+                    }
+                    totalCal = totalCal + getNumber(total1N, [11, 22, 33]);
+                }
+                nNam = (getNumber(totalCal, []))
+                $("#valNam").html(nNam);
+            }
+
+            function calThang() {
+                let thang = $("#thang").val();
+                let nThang = (getNumber(nNam + thang * 1, [11, 22, 33]))
+                $("#valThang").html(nThang);
+            }
+
+            function calChang() {
+                //nDuongDoi
+                let c1 = 36 - (getNumber(nDuongDoi, [])) * 1
+                $(".valchangC1").html(`0-${c1}`);
+                $(".valchangC2").html(`${c1}-${c1 + 9}`);
+                $(".valchangC3").html(`${c1 + 9}-${c1 + 18}`);
+                $(".valchangC4").html(`${c1 + 18}-hết`);
+                var dateString = $('#date').datepicker({ dateFormat: 'dd-mm-yy' }).val();
+                dateString = dateString.split("-");
+                let cc1 = (getNumber(getNumber(dateString[0], []) * 1 + getNumber(dateString[1], []) * 1, [])) * 1;
+                $("#valChang1").html(cc1);
+                let cc2 = (getNumber(getNumber(dateString[0], []) * 1 + getNumber(dateString[2], []) * 1, [])) * 1;
+                $("#valChang2").html(cc2);
+                let cc3 = (getNumber(getNumber(cc1, []) * 1 + getNumber(cc2, []) * 1, [])) * 1;
+                $("#valChang3").html(cc3);
+                let cc4 = (getNumber(getNumber(dateString[1], []) * 1 + getNumber(dateString[2], []) * 1, [])) * 1;
+                $("#valChang4").html(cc4);
+            }
+
+            function valThachThuc() {
+                //nDuongDoi
+                var dateString = $('#date').datepicker({ dateFormat: 'dd-mm-yy' }).val();
+                dateString = dateString.split("-");
+                let cc1 = (getNumber(Math.abs(getNumber(dateString[0], []) * 1 - getNumber(dateString[1], []) * 1, []))) * 1;
+                $("#valThachThuc1").html(cc1);
+                let cc2 = (getNumber(Math.abs(getNumber(dateString[0], []) * 1 - getNumber(dateString[2], []) * 1, []))) * 1;
+                $("#valThachThuc2").html(cc2);
+                let cc3 = (getNumber(Math.abs(getNumber(cc1, []) * 1 - getNumber(cc2, []) * 1, []))) * 1;
+                $("#valThachThuc3").html(cc3);
+                let cc4 = (getNumber(Math.abs(getNumber(dateString[1], []) * 1 - getNumber(dateString[2], []) * 1, []))) * 1;
+                $("#valThachThuc4").html(cc4);
+            }
+        });
+
+
+        function removeVietnameseTones(str) {
+            str = str.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g, "a");
+            str = str.replace(/è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ/g, "e");
+            str = str.replace(/ì|í|ị|ỉ|ĩ/g, "i");
+            str = str.replace(/ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ/g, "o");
+            str = str.replace(/ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ/g, "u");
+            str = str.replace(/ỳ|ý|ỵ|ỷ|ỹ/g, "y");
+            str = str.replace(/đ/g, "d");
+            str = str.replace(/À|Á|Ạ|Ả|Ã|Â|Ầ|Ấ|Ậ|Ẩ|Ẫ|Ă|Ằ|Ắ|Ặ|Ẳ|Ẵ/g, "A");
+            str = str.replace(/È|É|Ẹ|Ẻ|Ẽ|Ê|Ề|Ế|Ệ|Ể|Ễ/g, "E");
+            str = str.replace(/Ì|Í|Ị|Ỉ|Ĩ/g, "I");
+            str = str.replace(/Ò|Ó|Ọ|Ỏ|Õ|Ô|Ồ|Ố|Ộ|Ổ|Ỗ|Ơ|Ờ|Ớ|Ợ|Ở|Ỡ/g, "O");
+            str = str.replace(/Ù|Ú|Ụ|Ủ|Ũ|Ư|Ừ|Ứ|Ự|Ử|Ữ/g, "U");
+            str = str.replace(/Ỳ|Ý|Ỵ|Ỷ|Ỹ/g, "Y");
+            str = str.replace(/Đ/g, "D");
+            // Some system encode vietnamese combining accent as individual utf-8 characters
+            // Một vài bộ encode coi các dấu mũ, dấu chữ như một kí tự riêng biệt nên thêm hai dòng này
+            str = str.replace(/\u0300|\u0301|\u0303|\u0309|\u0323/g, ""); // ̀ ́ ̃ ̉ ̣  huyền, sắc, ngã, hỏi, nặng
+            str = str.replace(/\u02C6|\u0306|\u031B/g, ""); // ˆ ̆ ̛  Â, Ê, Ă, Ơ, Ư
+            // Remove extra spaces
+            // Bỏ các khoảng trắng liền nhau
+            str = str.replace(/ + /g, " ");
+            str = str.trim();
+            // Remove punctuations
+            // Bỏ dấu câu, kí tự đặc biệt
+            str = str.replace(/!|@|%|\^|\*|\(|\)|\+|\=|\<|\>|\?|\/|,|\.|\:|\;|\'|\"|\&|\#|\[|\]|~|\$|_|`|-|{|}|\||\\/g, " ");
+            return str;
+        }
+        var dataNumberChar = {
+            A: 1, J: 1, S: 1, B: 2, K: 2, T: 2, C: 3, L: 3, U: 3, D: 4,
+            M: 4, V: 4, E: 5, N: 5, W: 5, F: 6, O: 6, X: 6, G: 7, P: 7, Y: 7, H: 8,
+            Q: 8, Z: 8, I: 9, R: 9
+        };
+        var nguyenAm = ["A", "E", "O", "I", "U"]
+    </script>
+</body>
